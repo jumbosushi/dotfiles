@@ -5,5 +5,5 @@ Managed by using [this trick from Hacker News](https://developer.atlassian.com/b
 Pull to new system by the following command
 
 ```bash
-curl -Lks http://bit.do/jumbosushi-cfg | /bin/bash
+curl -Lks http://bit.do/cfg-atsushi | /bin/bash
 ```
