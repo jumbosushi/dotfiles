@@ -20,46 +20,47 @@ autoload -Uz compinit && compinit -i
 # =====================================
 # Alias
 
-alias ....="cd ../.."
-alias do_ctags="ctags -R ."
-alias gcm="git commit -m"
-alias grep_dir="grep -R $1 ."
-alias ngrok="/bin/ngrok"
-alias open="nautilus $1"
-alias pi_ssh="ssh pi@192.168.1.52"
-alias remove_swp="rm -rf ~/.local/share/nvim/swap/*"
-alias remove_swo="find . -name \*.swo -type f -delete"
-alias restart_network="sudo systemctl restart network-manager.service"
-alias ubyssey_dispatch="cd ~/p/ubyssey/dispatch/dispatch/static/manager/src"
-alias undo_last_commit="git reset HEAD^"
-alias update="sudo apt-get update; sudo apt-get -y dist-upgrade;sudo apt -y autoremove"
-alias vimconfig="vim ~/.vimrc"
-alias wifi_bar='nm-appalet'
-alias wut="$1 --help | grep $2"
-alias zshconfig="vim ~/.zshrc"
-alias ctagsconfig="vim ~/.ctags"
-alias tmuxconfig="vim ~/.tmux.conf"
-alias how_big="du -hs $1"
-alias tree="tree -a -I '.git|node_modules|tmp|public'"
-alias notes="cd ~/vimwiki/notes"
-alias wiki="cd ~/Dropbox/wiki"
-alias journal="geeknote create --title $(date -I) --tag journal --notebook Daily"
-alias edit_today="geeknote edit --note $(date -I)"
-alias pp="cd ~/p"
-alias dedit="vim Dockerfile"
-alias docker-cb="docker-compose build"
-alias docker-cu="docker-compose up"
-alias gl="git log"
-alias vim_swap="cd ~/.local/share/nvim/swap"
-alias gs="git status"
-alias gpr="ggpull --rebase"
 # Control dotfiles in git
 # https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias dbundle='~/p/bundler/bin/bundle'
+
+alias ....="cd ../.."
 alias cdu='cd ~/ubyssey-dev/ubyssey.ca && source ../bin/activate'
 alias cdus='cd ~/ubyssey-dev/ubyssey.ca && source ../bin/activate && python manage.py runserver'
+alias ctagsconfig="vim ~/.ctags"
+alias dbundle='~/p/bundler/bin/bundle'
+alias dedit="vim Dockerfile"
+alias do_ctags="ctags -R ."
+alias docker-cb="docker-compose build"
+alias docker-cu="docker-compose up"
+alias edit_today="geeknote edit --note $(date -I)"
+alias gcm="git commit -m"
+alias gl="git log"
+alias gpr="ggpull --rebase"
+alias grep_dir="grep -R $1 ."
+alias gs="git status"
+alias how_big="du -hs $1"
+alias journal="geeknote create --title $(date -I) --tag journal --notebook Daily"
+alias ngrok="/bin/ngrok"
+alias notes="cd ~/vimwiki/notes"
+alias open="nautilus $1"
+alias pi_ssh="ssh pi@192.168.1.52"
+alias pp="cd ~/p"
+alias remove_swo="find . -name \*.swo -type f -delete"
+alias remove_swp="rm -rf ~/.local/share/nvim/swap/*"
 alias replace_all="find .  f -exec sed -i 's/$1/$2/g; {} \;"
+alias restart_network="sudo systemctl restart network-manager.service"
+alias tmuxconfig="vim ~/.tmux.conf"
+alias tree="tree -a -I '.git|node_modules|tmp|public'"
+alias ubyssey_dispatch="cd ~/p/ubyssey/dispatch/dispatch/static/manager/src"
+alias undo_last_commit="git reset HEAD^"
+alias update="sudo apt-get update; sudo apt-get -y dist-upgrade;sudo apt -y autoremove"
+alias vim_swap="cd ~/.local/share/nvim/swap"
+alias vimconfig="vim ~/.vimrc"
+alias wifi_bar='nm-appalet'
+alias wiki="cd ~/Dropbox/wiki"
+alias wut="$1 --help | grep $2"
+alias zshconfig="vim ~/.zshrc"
 
 # Run git status on blank enter
 # https://tellme.tokyo/post/2016/12/20/git-tips/
