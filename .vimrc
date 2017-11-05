@@ -55,6 +55,7 @@ nnoremap <Space>n :noh<CR>
 nmap <Space>c "+y
 vmap <Space>c "+y
 
+
 " Marks
 nnoremap [Mark] <Nop>
 nmap m [Mark]
@@ -159,7 +160,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'vimwiki/vimwiki'
   Plug 'ternjs/tern_for_vim'
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer', 'for' : ['c', 'cpp', 'javascript', 'typescript', 'html','css','js', 'ts', 'rb', 'ruby'] }
-  Plug 'neilagabriel/vim-geeknote'
   Plug 'rking/ag.vim'
   Plug 'itchyny/calendar.vim'
   " Typescript
@@ -174,6 +174,8 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'itchyny/lightline.vim'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
+  Plug 'editorconfig/editorconfig-vim'
+  Plug 'kchmck/vim-coffee-script'
 call plug#end()
 
 " Need to be after colorscheme
@@ -254,8 +256,6 @@ nnoremap <C-c> :call multiple_cursors#quit()<CR>
 " Use silver_search for ack
 let g:ackprg = 'ag --vimgrep'
 
-" Open Geeknote
-noremap <F8> :Geeknote<cr>
 
 " ================================================
 " The Silver Searcher
@@ -305,7 +305,7 @@ let g:vimwiki_list = [{'path': '$HOME/Dropbox/wiki',
 
 " From https://github.com/statico/dotfiles/blob/202e30b23e5216ffb6526cce66a0ef4fa7070456/.vim/vimrc#L406-L453
 let g:lightline = {
-      \ 'colorscheme': 'solarized',
+      \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [['mode', 'paste'], ['filename', 'modified']],
       \   'right': [['lineinfo'], ['percent'], ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok']]
@@ -321,6 +321,10 @@ let g:lightline = {
       \   'linter_errors': 'error'
       \ },
 \ }
+
+if !has('gui_running')
+  set t_Co=256
+endif
 
 function! LightlineLinterWarnings() abort
   let l:counts = ale#statusline#Count(bufnr(''))
@@ -355,6 +359,6 @@ endfunction
 " ================================================
 " fzf
 
-nmap ; :Buffers<CR>
-nmap <Leader>t :Files<CR>
-nmap <C-P> :Tags<CR>
+nmap <C-B> :Buffers<CR>
+nmap <Leader>t :Tags<CR>
+nmap <C-P> :Files<CR>

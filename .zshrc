@@ -61,6 +61,7 @@ alias wifi_bar='nm-appalet'
 alias wiki="cd ~/Dropbox/wiki"
 alias wut="$1 --help | grep $2"
 alias zshconfig="vim ~/.zshrc"
+alias snp="cd ~/p/snp"
 
 # Run git status on blank enter
 # https://tellme.tokyo/post/2016/12/20/git-tips/
@@ -131,3 +132,6 @@ if _has fzf && _has ag; then
   --color info:108,prompt:109,spinner:108,pointer:168,marker:168
   '
 fi
+
+# added by travis gem
+[ -f /home/atsushi/.travis/travis.sh ] && source /home/atsushi/.travis/travis.sh
