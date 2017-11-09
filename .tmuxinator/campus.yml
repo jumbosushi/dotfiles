@@ -1,0 +1,12 @@
+# # ~/.tmuxinator/campus.yml
+
+name: campus_expert
+root: ~/p/open-training
+
+windows:
+  - default:
+    - export TERM=xterm
+  - vim:
+    - export TERM=xterm-256color
+    - vim .
+

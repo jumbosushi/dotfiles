@@ -1,0 +1,16 @@
+# ~/.tmuxinator/blog.yml
+
+name: blog
+root: ~/p/jumbosushi.github.io
+
+windows:
+  - default:
+    - export TERM=xterm
+    - lsof -i:3000
+  - vim:
+    - export TERM=xterm-256color
+    - vim .
+  - web:
+    - export TERM=xterm
+    - bundle exec jekyll serve -w
+

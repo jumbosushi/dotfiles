@@ -1,0 +1,10 @@
+# ~/.tmuxinator/n.yml
+
+name: n
+root: ~/
+
+windows:
+  - default:
+    - export TERM=xterm
+  - vim:
+    - export TERM=xterm-356-color

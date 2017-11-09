@@ -1,0 +1,24 @@
+# ~/.tmuxinator/mastodon.yml
+
+name: mastodon
+root: ~/p/mastodon
+
+windows:
+  - default:
+    - export TERM=xterm
+    - lsof -i:3000
+  - vim:
+    - export TERM=xterm-256color
+    - vim .
+  - web:
+    - export TERM=xterm
+    - PORT=3000 bundle exec puma -C config/puma.rb
+  - sidekiq:
+    - export TERM=xterm
+    - PORT=3000 bundle exec sidekiq
+  - stream:
+    - export TERM=xterm
+    - PORT=4000 yarn run start
+  - webpack:
+    - export TERM=xterm
+    - ./bin/webpack-dev-server --host 0.0.0.0
