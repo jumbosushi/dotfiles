@@ -299,7 +299,6 @@ let g:ycm_semantic_triggers['typescript'] = ['.']
 let g:vimwiki_list = [{'path': '$HOME/Dropbox/wiki',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
-
 " ================================================
 " Ligthline
 
@@ -362,3 +361,16 @@ endfunction
 nmap <C-B> :Buffers<CR>
 nmap <Leader>t :Tags<CR>
 nmap <C-P> :Files<CR>
+
+" ================================================
+" 310 project config
+:autocmd BufRead,BufNewFile ~/uni/cs310/cpsc310_team103/* let NERDTreeIgnore = ['\.js$', '\.js.map$']
+
+" ================================================
+" Writing
+autocmd BufRead,BufNewFile *.md setlocal wrap
+autocmd BufRead,BufNewFile *.md setlocal spell
+autocmd BufRead,BufNewFile *.md set complete+=kspell
+nmap <C-F> z=
+nmap <Leader>g ,w,w:Goyo<CR>
+
