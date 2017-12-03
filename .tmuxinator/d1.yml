@@ -2,18 +2,15 @@
 
 name: d1
 root: ~/uni/cs310/cpsc310_team103
+pre_window: export TERM=xterm-256color
 
 windows:
   - default:
-    - export TERM=xterm
   - vim:
-    - export TERM=xterm-256color
     - vim .
   - test:
-    - export TERM=xterm
+    - yarn run build && yarn run test
   - todo:
-    - export TERM=xterm-256color
     - wiki
     - vim .
   - web:
-    - export TERM=xterm

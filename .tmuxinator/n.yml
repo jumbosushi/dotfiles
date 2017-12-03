@@ -2,9 +2,8 @@
 
 name: n
 root: ~/
+pre_window: export TERM=xterm-256color
 
 windows:
   - default:
-    - export TERM=xterm
   - vim:
-    - export TERM=xterm-356-color
