@@ -20,6 +20,8 @@ set splitright
 set number
 set relativenumber
 set fo-=ro                      " Prevent auto commenting next line
+" Fix ?[q cursor issue https://github.com/neovim/neovim/issues/7049
+set guicursor=
 
 "" Color
 if $TERM == "xterm-256color"
@@ -50,6 +52,7 @@ nnoremap <Space>.
 nnoremap <Space>s.
 \        :<C-u>source ~/.vimrc<CR>
 nnoremap <Space>h :<C-u>help<Space>
+nnoremap <Space>a :<C-u>Ag<Space>
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 nnoremap <Space>n :noh<CR>
 nmap <Space>c "+y
@@ -99,7 +102,6 @@ vnoremap <leader>P "+P
 
 " Jump to new tab with ctags
 nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
-nnoremap <C-[> <C-w>v<C-]><C-w>R
 " Gitblame with visualmode
 vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
 
@@ -132,10 +134,13 @@ call plug#begin('~/.config/nvim/plugged')
   " PlugSnapshot[!] [output path] 	Generate script for restoring the current snapshot of the plugins
 
   Plug 'airblade/vim-gitgutter'
+  Plug 'jiangmiao/auto-pairs'
   Plug 'ascenator/L9'
   Plug 'digitaltoad/vim-pug'
   Plug 'elzr/vim-json'
   Plug 'flazz/vim-colorschemes'
+  " Visualize undotree
+  Plug 'sjl/gundo.vim'
   " Markdown support
   Plug 'godlygeek/tabular'
   Plug 'mattn/emmet-vim'
@@ -161,7 +166,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'ternjs/tern_for_vim'
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer', 'for' : ['c', 'cpp', 'javascript', 'typescript', 'html','css','js', 'ts', 'rb', 'ruby'] }
   Plug 'rking/ag.vim'
-  Plug 'itchyny/calendar.vim'
+  Plug 'tpope/vim-surround'
   " Typescript
   Plug 'Quramy/tsuquyomi'
   Plug 'leafgarland/typescript-vim'
@@ -197,7 +202,7 @@ let g:NERDSpaceDelims = 1     " Add spaces after comment delimiters by default
 let g:NERDCompactSexyComs = 1 " Use compact syntax for prettified multi-line comments
 let NERDTreeShowHidden=1      " Show hidden files in NERDTree
 let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace when uncommenting
-let g:NERDTreeIgnore=['\~$', '.git', 'node_modules', '\.swp$']
+let g:NERDTreeIgnore=['\~$', '.git', 'node_modules', '\.swp$', '\.pyc']
 
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <Leader>f :NERDTreeFind<CR>
@@ -226,7 +231,7 @@ call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 " ================================================
 
 " COnfig for js libraries
-let g:used_javascript_libs = 'underscore, react, flux, chai,jquery'
+let g:used_javascript_libs = 'underscore, react, flux, redux, chai,jquery'
 let g:jsx_ext_required = 0 " let jsx highlight work without .jsx
 
 " ================================================
@@ -364,7 +369,7 @@ nmap <C-P> :Files<CR>
 
 " ================================================
 " 310 project config
-:autocmd BufRead,BufNewFile ~/uni/cs310/cpsc310_team103/* let NERDTreeIgnore = ['\.js$', '\.js.map$']
+autocmd BufRead,BufNewFile ~/uni/cs310/cpsc310_team103/* let NERDTreeIgnore = ['\.js$', '\.js.map$']
 
 " ================================================
 " Writing
@@ -372,5 +377,13 @@ autocmd BufRead,BufNewFile *.md setlocal wrap
 autocmd BufRead,BufNewFile *.md setlocal spell
 autocmd BufRead,BufNewFile *.md set complete+=kspell
 nmap <C-F> z=
-nmap <Leader>g ,w,w:Goyo<CR>
+" nmap <Leader>g ,w,w:Goyo<CR>
+ nmap <Space>g :Goyo<CR>
+" Gundo
+nmap <Leader>g :GundoToggle<CR>
 
+" ================================================
+" matchit
+source $VIMRUNTIME/macros/matchit.vim
+let b:match_ignorecase = 1
+nmap <Tab> %
