@@ -2,8 +2,20 @@
 
 name: n
 root: ~/
-pre_window: export TERM=xterm-256color
+pre_window: export TERM=xterm
 
 windows:
   - default:
-  - vim:
+  - wiki:
+    - vim
+  - p:
+      layout: 7178,158x45,0,0[158x30,0,0,12,158x14,0,31,14]]
+        - cd p/ubcbooker
+        - cd p/ubcbooker
+  - leet:
+      layout: 0432,158x45,0,0{59x45,0,0[59x21,0,0,41,59x23,0,22,40],98x45,60,0,39}]
+      panes:
+        - cd ~/p/lc && lc stat
+        - cd lc
+        - pry
+
