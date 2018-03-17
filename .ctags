@@ -11,6 +11,7 @@
 --exclude=public
 --exclude=coverage
 --exclude=node_modules
+--exclude=dist
 
 --languages=-javascript,sql
 

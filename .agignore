@@ -2,4 +2,4 @@ Gemfile.lock
 yarn.lock
 tags
 log/
-vendor/
+# vendor/
