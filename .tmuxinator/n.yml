@@ -2,7 +2,7 @@
 
 name: n
 root: ~/
-pre_window: export TERM=xterm
+pre_window: export TERM=screen
 
 windows:
   - default:
@@ -10,6 +10,7 @@ windows:
     - vim
   - p:
       layout: 7178,158x45,0,0[158x30,0,0,12,158x14,0,31,14]]
+      panes:
         - cd p/ubcbooker
         - cd p/ubcbooker
   - leet:

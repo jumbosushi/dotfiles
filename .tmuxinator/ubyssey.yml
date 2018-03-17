@@ -2,35 +2,30 @@
 
 name: ubyssey
 root: ~/ubyssey-dev/
-pre_window: export TERM=xterm-256color && source ~/ubyssey-dev/bin/activate
+pre_window: export TERM=screen && source ~/ubyssey-dev/bin/activate
 
 windows:
   - d-c:
     - cd dispatch
-  - d-vim:
+  - d-v:
     - cd dispatch
     - vim .
   - d-s:
     - cd  ~/ubyssey-dev/dispatch/dispatch/static/manager
     - yarn start
-  - web-vim:
+  - web-v:
     - cdu
     - vim .
   - web-s:
-    - cdus
-  - salarydb:
-    - cd salarydb
-    - vim .
-  - bot-vim:
-    - cd ubysseybot
-    - vim .
-  - bot-s:
-    - cd ubysseybot
-    layout: main-horizontal
-    panes:
-      - gcloud app describe
-      - gcloud app logs read
-  - test:
+      layout: main-horizontal
+      panes:
+      - cdus
+      - cd /ubyssey-dev/ubyssey.ca/ubyssey/static && gulp
+  - db:
+      layout: main-horizontal
+      panes:
+        - cdu && python manage.py dbshell
+        - cdu && python manage.py shell
   - notes:
     - wiki
     - cd ubyssey
