@@ -23,11 +23,24 @@ set fo-=ro                      " Prevent auto commenting next line
 " Fix ?[q cursor issue https://github.com/neovim/neovim/issues/7049
 set guicursor=
 
+
+
 "" Color
 if $TERM == "xterm-256color"
   set t_Co=256
 endif
 set background=dark
+
+"if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+" endif
+"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+" if (has("termguicolors"))
+  " set termguicolors
+" endif
 
 "" Whitespace
 set nowrap                      " don't wrap lines
@@ -57,6 +70,9 @@ cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 nnoremap <Space>n :noh<CR>
 nmap <Space>c "+y
 vmap <Space>c "+y
+
+" Add semicolon at the end
+inoremap <leader>; <C-o>A;
 
 
 " Marks
@@ -106,9 +122,9 @@ nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 vmap <Leader>b :<C-U>!git blame <C-R>=expand("%:p") <CR> \| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p <CR>
 
 " Format JSON
-command FormatJSON :%!python -m json.tool
+command! FormatJSON :%!python -m json.tool
 " Disable linter
-command NoLint :let ale_enabled=0
+command! NoLint :let ale_enabled=0
 
 " =============================================
 " Lang specific spacing
@@ -133,6 +149,9 @@ call plug#begin('~/.config/nvim/plugged')
   " PlugDiff 	Examine changes from the previous update and the pending changes
   " PlugSnapshot[!] [output path] 	Generate script for restoring the current snapshot of the plugins
 
+  Plug 'ap/vim-css-color'
+  Plug 'fatih/vim-go'
+  Plug 'joshdick/onedark.vim'
   Plug 'airblade/vim-gitgutter'
   Plug 'jiangmiao/auto-pairs'
   Plug 'ascenator/L9'
@@ -181,10 +200,12 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'junegunn/fzf.vim'
   Plug 'editorconfig/editorconfig-vim'
   Plug 'kchmck/vim-coffee-script'
+  Plug 'sheerun/vim-polyglot'
 call plug#end()
 
 " Need to be after colorscheme
-colorscheme solarized
+" colorscheme solarized
+colorscheme onedark
 
 " ================================================
 " ALE
@@ -236,7 +257,7 @@ let g:jsx_ext_required = 0 " let jsx highlight work without .jsx
 
 " ================================================
 " Emmet
-let g:user_emmet_leader_key='<C-Y>'
+let g:user_emmet_leader_key='<C-y>' " NOTE: You run it by adding , at the emd
 let g:user_emmet_install_global = 0 " Use emmet for html & css
 let g:user_emmet_settings = {
 \  'javascript' : {
@@ -292,13 +313,23 @@ let g:calendar_google_task = 1
 " ================================================
 " YouCompleteMe
 
-if !exists("g:ycm_semantic_triggers")
- let g:ycm_semantic_triggers = {}
-endif
-let g:ycm_semantic_triggers['typescript'] = ['.']
+let g:ycm_semantic_triggers =  {
+  \   'c' : ['->', '.'],
+  \   'objc' : ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
+  \             're!\[.*\]\s'],
+  \   'ocaml' : ['.', '#'],
+  \   'cpp,objcpp' : ['->', '.', '::'],
+  \   'perl' : ['->'],
+  \   'php' : ['->', '::'],
+  \   'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+  \   'ruby' : ['.', '::'],
+  \   'rb' : ['.', '::'],
+  \   'lua' : ['.', ':'],
+  \   'erlang' : [':'],
+  \ }
 
 " ================================================
-" YouCompleteMe
+" Vimwiki
 
 " Set the home to Dropbox
 let g:vimwiki_list = [{'path': '$HOME/Dropbox/wiki',
@@ -324,7 +355,7 @@ let g:lightline = {
       \   'linter_warnings': 'warning',
       \   'linter_errors': 'error'
       \ },
-\ }
+\}
 
 if !has('gui_running')
   set t_Co=256
@@ -383,7 +414,22 @@ nmap <C-F> z=
 nmap <Leader>g :GundoToggle<CR>
 
 " ================================================
+" debugging
+"
+nnoremap <Leader>d odebuuger<Esc>
+autocmd FileType python nnoremap<buffer> <Leader>d oimport pdb; pdb.set_trace()<Esc>
+autocmd FileType ruby nnoremap<buffer> <Leader>d obinding.pry<Esc>
+autocmd FileType javascript nnoremap<buffer>  <Leader>d odebugger<Esc>
+
+" print
+nnoremap <Leader>p oprint<Esc>
+autocmd FileType go nnoremap<buffer> <Leader>p ofmt.Println("")<Esc>bla
+autocmd FileType javascript nnoremap<buffer> <Leader>p oconsole.log("")<Esc>bla
+
+" repeat
+nmap <Leader>r :q<CR>:GoRun
+
+" ================================================
 " matchit
 source $VIMRUNTIME/macros/matchit.vim
 let b:match_ignorecase = 1
-nmap <Tab> %
