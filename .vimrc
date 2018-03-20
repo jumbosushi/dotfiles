@@ -154,6 +154,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'joshdick/onedark.vim'
   Plug 'airblade/vim-gitgutter'
   Plug 'jiangmiao/auto-pairs'
+  Plug 'tweekmonster/django-plus.vim'
   Plug 'ascenator/L9'
   Plug 'digitaltoad/vim-pug'
   Plug 'elzr/vim-json'
@@ -264,7 +265,7 @@ let g:user_emmet_settings = {
 \      'extends' : 'jsx',
 \  },
 \}
-autocmd FileType html,css EmmetInstall
+autocmd FileType html,css :EmmetInstall
 
 " Disable folding in vim markdown
 let g:vim_markdown_folding_disabled = 1
@@ -397,6 +398,8 @@ endfunction
 nmap <C-B> :Buffers<CR>
 nmap <Leader>t :Tags<CR>
 nmap <C-P> :Files<CR>
+" Respect gitignore and agignore
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 " ================================================
 " 310 project config
@@ -416,18 +419,18 @@ nmap <Leader>g :GundoToggle<CR>
 " ================================================
 " debugging
 "
-nnoremap <Leader>d odebuuger<Esc>
-autocmd FileType python nnoremap<buffer> <Leader>d oimport pdb; pdb.set_trace()<Esc>
-autocmd FileType ruby nnoremap<buffer> <Leader>d obinding.pry<Esc>
-autocmd FileType javascript nnoremap<buffer>  <Leader>d odebugger<Esc>
+nnoremap <Space>d odebuger<Esc>
+autocmd FileType python nnoremap<buffer> <Space>d oimport pdb; pdb.set_trace()<Esc>
+autocmd FileType ruby nnoremap<buffer> <Space>d obinding.pry<Esc>
+autocmd FileType javascript nnoremap<buffer>  <Space>d odebugger<Esc>
 
 " print
-nnoremap <Leader>p oprint<Esc>
-autocmd FileType go nnoremap<buffer> <Leader>p ofmt.Println("")<Esc>bla
-autocmd FileType javascript nnoremap<buffer> <Leader>p oconsole.log("")<Esc>bla
+nnoremap <Space>p oprint<Esc>
+autocmd FileType go nnoremap<buffer> <Space>p ofmt.Println("")<Esc>bla
+autocmd FileType javascript nnoremap<buffer> <Space>p oconsole.log("")<Esc>bla
 
 " repeat
-nmap <Leader>r :q<CR>:GoRun
+nmap <Leader>r :q<CR>:GoRun<CR>
 
 " ================================================
 " matchit
