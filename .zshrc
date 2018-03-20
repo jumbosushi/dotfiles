@@ -8,7 +8,7 @@ plugins=(git ruby docker zsh-syntax-highlighting zsh-autosuggestions) # All plug
 source $ZSH/oh-my-zsh.sh
 
 export SSH_KEY_PATH="~/.ssh/dsa_id"
-eval `keychain --eval id_rsa` # For keychain
+# eval `keychain --eval id_rsa` # For keychain
 
 # redefine prompt_context for hiding user@hostname
 # prompt_context () { }
@@ -26,6 +26,7 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 alias ....="cd ../.."
 alias cdu='cd ~/ubyssey-dev/ubyssey.ca && source ../bin/activate'
+alias cdd='cd ~/ubyssey-dev/dispatch && source ../bin/activate'
 alias cdus='cd ~/ubyssey-dev/ubyssey.ca && source ../bin/activate && python manage.py runserver'
 alias ctagsconfig="vim ~/.ctags"
 alias dbundle='~/p/bundler/bin/bundle'
@@ -41,27 +42,34 @@ alias grep_dir="grep -R $1 ."
 alias gs="git status"
 alias how_big="du -hs $1"
 alias journal="geeknote create --title $(date -I) --tag journal --notebook Daily"
+alias lc="leetcode"
 alias ngrok="/bin/ngrok"
 alias notes="cd ~/vimwiki/notes"
 alias open="nautilus $1"
 alias pi_ssh="ssh pi@192.168.1.52"
 alias pp="cd ~/p"
+alias rbenv_update="cd ~/.rbenv/plugins/ruby-build && git pull && cd -"
+alias remove_js="find . -name '*.js' -type f  -delete"
 alias remove_swo="find . -name \*.swo -type f -delete"
 alias remove_swp="rm -rf ~/.local/share/nvim/swap/*"
 alias replace_all="find .  f -exec sed -i 's/$1/$2/g; {} \;"
 alias restart_network="sudo systemctl restart network-manager.service"
+# After ls, run 'sudo cat' with the wifi name
+alias show_wifi_pass="/etc/NetworkManager/system-connections && ls -a"
+alias tmp="cd /tmp"
+alias setx="export TERM=xterm-256color"
+alias ssh-ubc="ssh r6v9a@remote.ugrad.cs.ubc.ca"
 alias tmuxconfig="vim ~/.tmux.conf"
 alias tree="tree -a -I '.git|node_modules|tmp|public'"
 alias ubyssey_dispatch="cd ~/p/ubyssey/dispatch/dispatch/static/manager/src"
 alias undo_last_commit="git reset HEAD^"
-alias update="sudo apt-get update; sudo apt-get -y dist-upgrade;sudo apt -y autoremove"
+alias update="sudo apt update; sudo apt -y dist-upgrade; sudo apt -y autoremove"
 alias vim_swap="cd ~/.local/share/nvim/swap"
 alias vimconfig="vim ~/.vimrc"
 alias wifi_bar='nm-appalet'
 alias wiki="cd ~/Dropbox/wiki"
 alias wut="$1 --help | grep $2"
 alias zshconfig="vim ~/.zshrc"
-alias snp="cd ~/p/snp"
 
 # Run git status on blank enter
 # https://tellme.tokyo/post/2016/12/20/git-tips/
@@ -135,3 +143,12 @@ fi
 
 # added by travis gem
 [ -f /home/atsushi/.travis/travis.sh ] && source /home/atsushi/.travis/travis.sh
+
+# tiny-care-terminal
+export TTC_BOTS='tinycarebot,selfcare_bot,magicrealismbot'
+export TTC_SAY_BOX='parrot'
+export TTC_REPOS='~/p/ubcbooker,~/ubyssey-dev/ubyssey.ca,~/ubyssey-dev/dispatch'
+export TTC_GITBOT='gitlog'
+export TTC_WEATHER='Vancouver'
+export TTC_APIKEYS=false
+export TTC_UPDATE_INTERVAL=20
