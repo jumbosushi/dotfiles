@@ -7,16 +7,16 @@ pre_window: export TERM=screen
 windows:
   - default:
   - wiki:
-    - vim
+    - vim +VimwikiTabMakeDiaryNote
   - p:
       layout: 7178,158x45,0,0[158x30,0,0,12,158x14,0,31,14]]
       panes:
         - cd p/ubcbooker
         - cd p/ubcbooker
   - leet:
-      layout: 0432,158x45,0,0{59x45,0,0[59x21,0,0,41,59x23,0,22,40],98x45,60,0,39}]
+      layout: 4728,212x58,0,0{106x58,0,0[106x29,0,0,3,106x28,0,30,9],105x58,107,0,7}
       panes:
-        - cd ~/p/lc && lc stat
-        - cd lc
+        - cd ~/p/lc
         - pry
+        - cd ~/p/lc && lc stat
 
