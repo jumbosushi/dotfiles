@@ -1,0 +1,3 @@
+bind -v
+bind jk vi-command-mode /* map 'jk' as escape  */
+bind ^I rl_complete /* Enable tab completion in db */
