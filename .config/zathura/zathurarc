@@ -6,7 +6,7 @@ map <C-\-> zoom out
 map <C-\=> zoom in
 map [fullscreen] <C-\-> zoom out
 map [fullscreen] <C-\=> zoom in
-set zoom-step 20
+set zoom-step 50
 
 # Font size
 set font "monospace normal 12"
