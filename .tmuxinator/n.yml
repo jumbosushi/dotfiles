@@ -1,22 +1,28 @@
-# ~/.tmuxinator/n.yml
+# layout: 4729,212x58,0,0{106x58,0,0[106x29,0,0,3,106x28,0,30,9],105x58,107,0,7}
 
 name: n
 root: ~/
-pre_window: export TERM=screen
+# pre_window: export TERM=screen
 
 windows:
   - default:
   - wiki:
+    - cd ~/Dropbox/wiki
     - vim +VimwikiTabMakeDiaryNote
+  - ranger:
+    - ranger
   - p:
       layout: 7178,158x45,0,0[158x30,0,0,12,158x14,0,31,14]]
       panes:
-        - cd p/ubcbooker
-        - cd p/ubcbooker
+        - cd  ~/p/ubc-rmp
+        - cd  ~/p/ubc-rmp
   - leet:
       layout: 4728,212x58,0,0{106x58,0,0[106x29,0,0,3,106x28,0,30,9],105x58,107,0,7}
       panes:
         - cd ~/p/lc
         - pry
         - cd ~/p/lc && lc stat
+  - notes:
+    - vim ~/p/lc/ruby_methods.rb
+
 
