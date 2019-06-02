@@ -1,29 +1,50 @@
 let mapleader=","
 inoremap jk <Esc>
-filetype plugin indent on " To ignore plugin indent changes, instead use:
+" be iMproved, required
+set nocompatible
+" To ignore plugin indent changes, instead use:
+filetype plugin indent on
 syntax enable
-set nocompatible              " be iMproved, required
+syntax on
 set encoding=utf-8
-set showcmd                     " display incomplete commands
-set pastetoggle=<F3> " <F3> to enter paster mode
-set tags=./tags; " Ctags setting
+" display incomplete commands
+set showcmd
+" <F3> to enter paster mode
+set pastetoggle=<F3>
+" Ctags setting
+set tags=./tags;
 set shell=/usr/bin/zsh
 set omnifunc=syntaxcomplete#CompleteCSS
-set path+=**          " Search sub folders + tab completion
-set wildmenu          " Display all matching files
-set wildignore+=**/node_modules/** " Ignore node_modules from :find
-set hlsearch                    " highlight matches
-set incsearch                   " incremental searching
-set ignorecase                  " searches are case insensitive...
-set smartcase                   " ... unless they contain at least one capital letter
+" Search sub folders + tab completion
+set path+=**
+" Display all matching files
+set wildmenu
+" Ignore node_modules from :find
+set wildignore+=**/node_modules/**
+" highlight matches
+set hlsearch
+" incremental searching
+set incsearch
+" searches are case insensitive...
+set ignorecase
+" ... unless they contain at least one capital letter
+set smartcase
 set splitright
 set number
 set relativenumber
-set fo-=ro                      " Prevent auto commenting next line
+" Prevent auto commenting next line
+set fo-=ro
 " Fix ?[q cursor issue https://github.com/neovim/neovim/issues/7049
 set guicursor=
+" Currently disable since it breaks with nvim 0.3.2
+set cursorcolumn
+set cursorline
 
 
+" let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+set termguicolors
 
 "" Color
 if $TERM == "xterm-256color"
@@ -31,16 +52,12 @@ if $TERM == "xterm-256color"
 endif
 set background=dark
 
-"if (has("nvim"))
-  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-  " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-" endif
 "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
 "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-" if (has("termguicolors"))
-  " set termguicolors
-" endif
+"< https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+if (has("termguicolors"))
+  set termguicolors
+endif
 
 "" Whitespace
 set nowrap                      " don't wrap lines
@@ -64,16 +81,19 @@ nnoremap <Space>.
 \        :<C-u>edit ~/.vimrc<CR>
 nnoremap <Space>s.
 \        :<C-u>source ~/.vimrc<CR>
+" Quick call to help
 nnoremap <Space>h :<C-u>help<Space>
-nnoremap <Space>a :<C-u>Ag<Space>
+" Quick search (! prevents auto jump to 1st result)
+nnoremap <Space>a :<C-u>Ag!<Space>
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+" disable search highlight
 nnoremap <Space>n :noh<CR>
-nmap <Space>c "+y
+" copy text to clipboard
 vmap <Space>c "+y
-
 " Add semicolon at the end
-inoremap <leader>; <C-o>A;
-
+nnoremap <leader>; <C-o>A;<Esc>
+inoremap <leader>; <C-o>A;<ESc>
+nnoremap <leader>s :<C-u>set<Space>syntax=
 
 " Marks
 nnoremap [Mark] <Nop>
@@ -88,7 +108,6 @@ endif
 nnoremap <silent>[Mark]m :<C-u>call <SID>AutoMarkrement()<CR>
 function! s:AutoMarkrement()
     if !exists('b:markrement_pos')
-nnoremap <Space>h :<C-u>help<Space>
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
         let b:markrement_pos = 0
     else
@@ -104,17 +123,7 @@ nnoremap [Mark]p [`
 nnoremap [Mark]l :<C-u>marks<CR>
 autocmd BufReadPost * delmarks!
 
-" " Copy to clipboard
-vnoremap  <leader>y  "+y
-nnoremap  <leader>Y  "+yg_
-nnoremap  <leader>y  "+y
-nnoremap  <leader>yy  "+yy
 
-" " Paste from clipboard
-nnoremap <leader>p "+p
-nnoremap <leader>P "+P
-vnoremap <leader>p "+p
-vnoremap <leader>P "+P
 
 " Jump to new tab with ctags
 nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
@@ -134,6 +143,9 @@ command! NoLint :let ale_enabled=0
 " Disable typescirpt-vim's indent and use js-indent
 let g:typescript_indent_disable = 1
 autocmd BufRead,BufNewFile *.ts set ts=4 sw=4 sts=4 et
+autocmd BufRead,BufNewFile *.py set ts=4 sw=4 sts=4 et
+autocmd BufRead,BufNewFile *.go set ts=4 sw=4 sts=4 et
+autocmd BufRead,BufNewFile *.js set ts=2 sw=2 sts=2 et
 
 " =============================================
 " Vundle
@@ -149,7 +161,9 @@ call plug#begin('~/.config/nvim/plugged')
   " PlugDiff 	Examine changes from the previous update and the pending changes
   " PlugSnapshot[!] [output path] 	Generate script for restoring the current snapshot of the plugins
 
+  Plug 'danro/rename.vim'
   Plug 'ap/vim-css-color'
+  Plug 'cespare/vim-toml'
   Plug 'fatih/vim-go'
   Plug 'joshdick/onedark.vim'
   Plug 'airblade/vim-gitgutter'
@@ -182,11 +196,17 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tpope/vim-rake'
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'vim-ruby/vim-ruby'
+  " Error when there old version?
+  " https://github.com/vimwiki/vimwiki/issues/376
   Plug 'vimwiki/vimwiki'
   Plug 'ternjs/tern_for_vim'
-  Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer', 'for' : ['c', 'cpp', 'javascript', 'typescript', 'html','css','js', 'ts', 'rb', 'ruby'] }
+  " If YCM isn't working, re-install with python
+  " sudo python3 -m pip install --upgrade neovim
+  Plug 'Valloric/YouCompleteMe', { 'do': './install.py', 'for' : ['c', 'cpp', 'javascript', 'typescript', 'html','css', 'js', 'jsx', 'go', 'ts', 'rb', 'ruby', 'py', 'python'] }
   Plug 'rking/ag.vim'
   Plug 'tpope/vim-surround'
+  " Replace words case sensitive
+  Plug 'tpope/vim-abolish'
   " Typescript
   Plug 'Quramy/tsuquyomi'
   Plug 'leafgarland/typescript-vim'
@@ -202,11 +222,59 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'editorconfig/editorconfig-vim'
   Plug 'kchmck/vim-coffee-script'
   Plug 'sheerun/vim-polyglot'
+  Plug 'majutsushi/tagbar'
+  Plug 'tomlion/vim-solidity'
+  " Y86 for 313
+  Plug 'wilt00/vim-y86-syntax'
+  " Writing
+  Plug 'reedes/vim-pencil'
+  Plug 'reedes/vim-litecorrect'
+  Plug 'reedes/vim-lexical'
+  Plug 'reedes/vim-wordy'
+
 call plug#end()
 
 " Need to be after colorscheme
 " colorscheme solarized
+let g:onedark_termcolors=16
 colorscheme onedark
+
+" ================================================
+" Writing
+let g:pencil#wrapModeDefault = 'soft'
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+                            \ | call lexical#init()
+                            \ | call litecorrect#init()
+augroup END
+let g:lexical#thesaurus = ['~/.config/nvim/words.txt',]
+let g:lexical#dictionary_key = '<leader>k'
+let g:lexical#thesaurus_key = '<leader>t'
+" Wordy by :wordy weak (or other arg)
+let g:wordy#ring = [
+  \ 'weak',
+  \ ['being', 'passive-voice', ],
+  \ 'business-jargon',
+  \ 'weasel',
+  \ 'puffery',
+  \ ['problematic', 'redundant', ],
+  \ ['colloquial', 'idiomatic', 'similies', ],
+  \ ['contractions', 'opinion', 'vague-time', 'said-synonyms', ],
+  \ 'adjectives',
+  \ 'adverbs',
+  \ ]
+nmap <Leader>w :Wordy weak<CR>
+
+autocmd BufRead,BufNewFile ~/Dropbox/wiki/*.md setlocal spell
+autocmd BufRead,BufNewFile ~/Dropbox/wiki/*.md set spelllang=cjk,en_us
+autocmd BufRead,BufNewFile ~/Dropbox/wiki/*.md set complete+=kspell
+
+nmap <C-F> z=
+" nmap <Leader>g ,w,w:Goyo<CR>
+ nmap <Space>g :Goyo<CR>
+" Gundo
+nmap <Leader>g :GundoToggle<CR>
 
 " ================================================
 " ALE
@@ -250,6 +318,9 @@ call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
 call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
 call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 
+" Fix "E121: Undefined variable: g:NERDTreeNodeDelimiter" issue
+let g:NERDTreeNodeDelimiter = "\u00a0"
+
 " ================================================
 
 " COnfig for js libraries
@@ -269,6 +340,7 @@ autocmd FileType html,css :EmmetInstall
 
 " Disable folding in vim markdown
 let g:vim_markdown_folding_disabled = 1
+let g:markdown_fenced_languages = ['bash=sh', 'css', 'javascript', 'js=javascript', 'json=javascript', 'python', 'ruby', 'sass', 'html']
 
 " Turn off default for multi select
 let g:multi_cursor_use_default_mapping=0
@@ -300,8 +372,8 @@ nnoremap <Space>s :call RunNearestSpec()<CR>
 " ================================================
 " Tabulize
 if exists(":Tabularize")
-  nmap <Space>t= :Tabularize /=<CR>
-  vmap <Space>t= :Tabularize /=<CR>
+  nmap <Space>t= :Tab /=<CR>
+  vmap <Space>t= :Tab /=<CR>
   nmap <Space>t: :Tabularize /:\zs<CR>
   vmap <Space>t: :Tabularize /:\zs<CR>
 endif
@@ -325,14 +397,20 @@ let g:ycm_semantic_triggers =  {
   \   'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.'],
   \   'ruby' : ['.', '::'],
   \   'rb' : ['.', '::'],
+  \   'go' : ['.'],
   \   'lua' : ['.', ':'],
   \   'erlang' : [':'],
   \ }
+
+let g:ycm_server_keep_logfiles = 1
+let g:ycm_server_log_level = 'debug'
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " ================================================
 " Vimwiki
 
 " Set the home to Dropbox
+let g:vimwiki_auto_chdir = 0
 let g:vimwiki_list = [{'path': '$HOME/Dropbox/wiki',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
@@ -406,21 +484,11 @@ let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 autocmd BufRead,BufNewFile ~/uni/cs310/cpsc310_team103/* let NERDTreeIgnore = ['\.js$', '\.js.map$']
 
 " ================================================
-" Writing
-autocmd BufRead,BufNewFile *.md setlocal wrap
-autocmd BufRead,BufNewFile *.md setlocal spell
-autocmd BufRead,BufNewFile *.md set complete+=kspell
-nmap <C-F> z=
-" nmap <Leader>g ,w,w:Goyo<CR>
- nmap <Space>g :Goyo<CR>
-" Gundo
-nmap <Leader>g :GundoToggle<CR>
+" Custom Keybinds
 
-" ================================================
 " debugging
-"
 nnoremap <Space>d odebuger<Esc>
-autocmd FileType python nnoremap<buffer> <Space>d oimport pdb; pdb.set_trace()<Esc>
+autocmd FileType python nnoremap<buffer> <Space>d oimport pprint; printer = pprint.PrettyPrinter(indent=4); import pdb; pdb.set_trace()<Esc>
 autocmd FileType ruby nnoremap<buffer> <Space>d obinding.pry<Esc>
 autocmd FileType javascript nnoremap<buffer>  <Space>d odebugger<Esc>
 
@@ -436,3 +504,19 @@ nmap <Leader>r :q<CR>:GoRun<CR>
 " matchit
 source $VIMRUNTIME/macros/matchit.vim
 let b:match_ignorecase = 1
+
+" ================================================
+" tagbar
+command! Tagbar :TagbarToggle<CR>
+
+
+" Enable true color
+if has('termguicolors')
+  set termguicolors
+endif
+
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+" ================================================
+" vim-go
+let $GOPATH = "/home/atsushi/p"
