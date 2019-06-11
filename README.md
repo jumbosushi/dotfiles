@@ -12,6 +12,6 @@ curl -Lks http://bit.do/cfg-atsushi | /bin/bash
 
 For getting basic vim keybinds in new cli env
 
-```
+```bash
 curl -Lks http://bit.do/bare-cfg-atsushi | /bin/bash
 ```
