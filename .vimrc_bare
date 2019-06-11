@@ -1,0 +1,55 @@
+let mapleader=","
+inoremap jk <Esc>
+" be iMproved, required
+set nocompatible
+" To ignore plugin indent changes, instead use:
+filetype plugin indent on
+syntax enable
+syntax on
+set encoding=utf-8
+" display incomplete commands
+set showcmd
+" <F3> to enter paster mode
+set pastetoggle=<F3>
+" Ctags setting
+set tags=./tags;
+set shell=/bin/zsh
+set omnifunc=syntaxcomplete#CompleteCSS
+" Search sub folders + tab completion
+set path+=**
+" Display all matching files
+set wildmenu
+" Ignore node_modules from :find
+set wildignore+=**/node_modules/**
+" highlight matches
+set hlsearch
+" incremental searching
+set incsearch
+" searches are case insensitive...
+set ignorecase
+" ... unless they contain at least one capital letter
+set smartcase
+set splitright
+set number
+set relativenumber
+" Prevent auto commenting next line
+set fo-=ro
+" Fix ?[q cursor issue https://github.com/neovim/neovim/issues/7049
+set guicursor=
+
+set nowrap                      " don't wrap lines
+set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
+set expandtab                   " use spaces, not tabs (optional)
+set backspace=indent,eol,start  " backspace through everything in insert mode
+
+" Open + reload .vimrc
+nnoremap <Space>.
+\        :<C-u>edit ~/.vimrc<CR>
+nnoremap <Space>s.
+\        :<C-u>source ~/.vimrc<CR>
+" Quick call to help
+nnoremap <Space>h :<C-u>help<Space>
+" disable search highlight
+nnoremap <Space>n :noh<CR>
+" copy text to clipboard
+vmap <Space>c "+y
