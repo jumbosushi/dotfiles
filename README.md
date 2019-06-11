@@ -7,3 +7,11 @@ Pull to new system by the following command
 ```bash
 curl -Lks http://bit.do/cfg-atsushi | /bin/bash
 ```
+
+## Basic vim config
+
+For getting basic vim keybinds in new cli env
+
+```
+curl -Lks http://bit.do/bare-cfg-atsushi | /bin/bash
+```
