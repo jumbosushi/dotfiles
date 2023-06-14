@@ -30,7 +30,6 @@ set ignorecase
 " ... unless they contain at least one capital letter
 set smartcase
 set splitright
-set number
 set relativenumber
 " Prevent auto commenting next line
 set fo-=ro
@@ -478,10 +477,6 @@ nmap <Leader>t :Tags<CR>
 nmap <C-P> :Files<CR>
 " Respect gitignore and agignore
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
-
-" ================================================
-" 310 project config
-autocmd BufRead,BufNewFile ~/uni/cs310/cpsc310_team103/* let NERDTreeIgnore = ['\.js$', '\.js.map$']
 
 " ================================================
 " Custom Keybinds
