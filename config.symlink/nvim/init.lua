@@ -50,10 +50,10 @@ set.wrap = false -- No Wrap lines
 -- #########################
 -- Mappings
 options = { noremap = true }
-
 map('i', 'jk', '<Esc>', options)
 map('n', '<Space>.', ':<C-u>edit ~/.config/nvim/init.lua<CR>', options)
 map('n', '<Space>s.', ':<C-u>source ~/.config/nvim/init.lua<CR>', options)
+map('n', '<Leader>p', ':<C-u>edit ~/.config/nvim/lua/plugins.lua<CR>', options) -- Open file in nvim-tree
 map('n', '<Space>a', ':<C-u>terminal rg<Space>', options)
 map('n', '<Space>h', ':help ', options)
 map('v', '<Space>c', '"+y', options) -- Copy to clipboard
