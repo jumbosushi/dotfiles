@@ -21,6 +21,7 @@ brew "htop"
 brew "httpie"
 brew "jq"
 brew "mtr"
+brew "node"
 brew "neovim"
 brew "ripgrep"
 brew "telnet"
@@ -31,6 +32,11 @@ brew "tmux"
 brew "tmuxinator"
 brew "tree"
 brew "watch"
+brew "rbenv"
+brew "ruby-build"
+# -----------------
+# LSP
+brew "pyright"
 # -----------------
 # Cask
 cask "1password"
