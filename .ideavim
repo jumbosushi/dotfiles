@@ -1,0 +1,7 @@
+imap jk <Esc>
+
+set NERDTree
+
+let mapleader=","
+map <C-n> :NERDTreeToggle<CR>
+nnoremap <Leader>f :NERDTreeFind<CR>
