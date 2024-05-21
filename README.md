@@ -1,17 +1,18 @@
 # dotfiles
 
-Managed by using [this trick from Hacker News](https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/)
+This setup is heavily inspired by []cpojer/dotfiles](https://github.com/cpojer/dotfiles) setup.
 
-Pull to new system by the following command
+## Mac
 
-```bash
-curl -Lks http://bit.do/cfg-atsushi | /bin/bash
+```
+git clone git@github.com:jumbosushi/dotfiles.git
+cd dotfiles
+./bootstrap
+./homebrew
 ```
 
-## Basic vim config
+## Linux
 
-For getting basic vim keybinds in new cli env
+```
 
-```bash
-curl -Lks http://bit.do/vim-cfg-atsushi | /bin/bash
 ```

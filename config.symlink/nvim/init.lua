@@ -117,6 +117,19 @@ vim.cmd([[
 
 -- #########################
 -- Plugins
+
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
+end
+
+local packer_bootstrap = ensure_packer()
 require('plugins')
 require('onedark').load()
 vim.cmd([[autocmd BufWritePost * lua require('gitsigns').stage_hunk()]])
@@ -220,7 +233,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 -- Use the name from here: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 require('lspconfig')['pyright'].setup { capabilities = capabilities }
-require('lspconfig')['ruby_ls'].setup { capabilities = capabilities }
+require('lspconfig')['ruby_lsp'].setup { capabilities = capabilities }
 
 -- #########################
 -- Plugins: nvim-treesitter

@@ -1,7 +1,6 @@
 tap "github/gh"
 tap "homebrew/bundle"
 tap "homebrew/cask"
-tap "homebrew/core"
 tap "homebrew/services"
 # -----------------
 # brew
@@ -34,6 +33,7 @@ brew "tree"
 brew "watch"
 brew "rbenv"
 brew "ruby-build"
+brew "zsh"
 # -----------------
 # LSP
 brew "pyright"

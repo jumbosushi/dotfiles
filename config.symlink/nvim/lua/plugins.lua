@@ -24,5 +24,10 @@ return require('packer').startup(function(use)
   use 'hrsh7th/vim-vsnip'
   -- packer
   use 'wbthomason/packer.nvim'
+  -- Bootstrapping
+  -- https://github.com/wbthomason/packer.nvim?tab=readme-ov-file#bootstrapping
+  if packer_bootstrap then
+    require('packer').sync()
+  end
 end)
 

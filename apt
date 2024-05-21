@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+sudo apt update
+sudo apt upgrade -y
+# TODO: Fix these
+#  . "$HOME/.cargo/env"
+PATH=$PATH:/home/user/.local/share/bob/nvim-bin
+PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
+export HOMEBREW_NO_AUTO_UPDATE=1
+# Install rustup
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# Mighe need the following in the .zshrc file
+# Install bob (nvim version manager). This is since Packer is only for v0.5 >
+cargo install bob-nvim
+# Run nvim install
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+
+sudo apt install zsh
+# Install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
