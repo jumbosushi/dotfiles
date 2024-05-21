@@ -3,18 +3,37 @@
 sudo apt update
 sudo apt upgrade -y
 # TODO: Fix these
-#  . "$HOME/.cargo/env"
-PATH=$PATH:/home/user/.local/share/bob/nvim-bin
-PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
-export HOMEBREW_NO_AUTO_UPDATE=1
 # Install rustup
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+. "$HOME/.cargo/env"
 # Mighe need the following in the .zshrc file
 # Install bob (nvim version manager). This is since Packer is only for v0.5 >
 cargo install bob-nvim
 # Run nvim install
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+bob install 0.9.5
+bob use 0.9.5
+PATH=$PATH:/home/user/.local/share/bob/nvim-bin
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerInstall'
 
-sudo apt install zsh
+sudo apt install zsh -y
 # Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# Bring back the original zshrc
+mv .zshrc.pre-oh-my-zsh .zshrc
+
+## GitHub CLI
+(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+&& sudo mkdir -p -m 755 /etc/apt/keyrings \
+&& wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+&& sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+&& sudo apt update \
+&& sudo apt install gh -y
+
+## packages
+sudo apt install \
+    ripgrep \
+    tmux \
+    fzf \
+    jq
+

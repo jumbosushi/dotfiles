@@ -1,0 +1,157 @@
+export ZSH=/Users/ayamamoto/.oh-my-zsh
+export VISUAL=nvim
+export EDITOR="$VISUAL"
+
+export HISTFILE=~/.zsh_history
+export HISTFILESIZE=1000000000
+export HISTSIZE=1000000000
+setopt EXTENDED_HISTORY
+setopt appendhistory
+
+###
+ZSH_THEME="agnoster"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
+plugins=(git ssh-agent docker kubectl zsh-syntax-highlighting zsh-autosuggestions) # All plugins at ~/.oh-my-zsh/plugins/*
+
+# Enable ssh-forwarding
+zstyle :omz:plugins:ssh-agent agent-forwarding on
+# Straight from oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+export SSH_KEY_PATH="~/.ssh/dsa_id"
+# eval `keychain --eval id_rsa` # For keychain
+
+# redefine prompt_context for hiding user@hostname
+prompt_context () { }
+
+# Docker
+fpath=(~/.zsh/completion $fpath)
+autoload -Uz compinit && compinit -i
+
+# =====================================
+# Alias
+
+function view_pr() {
+  export RB_COMMIT=$1
+  num=$(ruby -e 's=`git log $RB_COMMIT | cat | head -5`; r = s.match(/\(\#(\d+)\)/); print r.to_s[2..-2]')
+  gh pr view --web $num
+} 
+
+function hgrep() {
+  awk "NR == 1 || /$1/"
+}
+
+alias bat="bat --theme='TwoDark'"
+alias be="bundle exec"
+alias ctagsconfig="vim ~/.ctags"
+alias dedit="vim Dockerfile"
+alias do_ctags="ctags -R ."
+alias g='grep'
+alias gclean='git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
+alias gcm="git commit -m"
+alias gl="git log"
+alias gpr="ggpull --rebase"
+alias grep_dir="grep -R $1 ."
+alias hgrep="hgrep $1"
+alias how_big="du -hs $1"
+alias mk="minikube"
+alias msd="my-ml-dev"
+alias kctx="kubectx"
+alias kns="kubens"
+alias rbenv_update="cd ~/.rbenv/plugins/ruby-build && git pull && cd -"
+alias remove_swo="find . -name \*.swo -type f -delete"
+alias remove_swp="rm -rf ~/.local/share/nvim/swap/*"
+alias replace_all="find .  f -exec sed -i 's/$1/$2/g; {} \;"
+alias tmp="cd /tmp"
+alias mux="tmuxinator"
+alias tmuxconfig="vim ~/.tmux.conf"
+alias tree="tree -a -I '.git|node_modules|tmp|public'"
+alias undo_work="git stash --include-untracked && git stash drop"
+alias undo_last_commit="git reset HEAD^"
+alias update="sudo apt update; sudo apt -y dist-upgrade; sudo apt -y autoremove"
+alias vim="nvim"
+alias view="nvim -R"
+alias view_pr="view_pr $1"
+alias vim_swap="cd ~/.local/share/nvim/swap"
+alias vimconfig="vim ~/.vimrc"
+alias wut="$1 --help | grep $2"
+alias zshconfig="vim ~/.zshrc"
+
+# =====================================
+# Language config
+
+# Go
+export GOPATH=$HOME/go
+export GOBIN=$HOME/go/bin
+source ~/.tmuxinator.zsh
+export DISABLE_AUTO_TITLE=true
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$GOPATH/bin
+
+
+# ==================================
+# Use vim keybind
+bindkey -M viins 'jk' vi-cmd-mode
+bindkey -M viins '\C-e' end-of-line
+bindkey -M viins '^r' history-incremental-search-backward
+bindkey -M vicmd '^r' history-incremental-search-backward
+bindkey -v
+
+# =====================================
+# fzf + ag configuration
+_has(){
+    command type "$1" > /dev/null 2>&1
+}
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if _has fzf && _has ag; then
+  export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_DEFAULT_OPTS='
+  --color fg:242,bg:236,hl:65,fg+:15,bg+:239,hl+:108
+  --color info:108,prompt:109,spinner:108,pointer:168,marker:168
+  '
+fi
+
+POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+export PATH="$HOME/.jenv/bin:$PATH"
+
+# =====================================
+# Kubernetes
+export KUBE_EDITOR=nvim
+# Show k8s context in prompt
+source ~/kube-ps1.sh 
+PROMPT='$(kube_ps1)'$PROMPT
+export KUBE_PS1_SYMBOL_ENABLE=false
+export KUBE_PS1_DIVIDER='|'
+export KUBE_PS1_SUFFIX=') '
+kubeoff
+
+eval "$(pyenv init -)"
+
+# Add sublime shell
+export PATH=$PATH:'/Applications/Sublime Text.app/Contents/SharedSupport/bin'
+# Disable homebrew update
+export HOMEBREW_NO_AUTO_UPDATE=1
+# rbenv
+eval "$(rbenv init - zsh)"
+
+# =============
+# jq ruby substitute: https://news.ycombinator.com/item?id=13091469
+# e.g.   curl the_endpoint | ruby_json "['funnels'].map{|a| puts a.to_i * 2 }"
+function ruby_json {
+  ruby -e "require 'json'; require 'active_support/all'; puts JSON.parse(STDIN.read)$1"
+}
+
+# =============
+# Cargo
+# Check if cargo is available
+if command -v cargo &> /dev/null
+then
+    # Source the Cargo environment file
+    . "$HOME/.cargo/env"
+    echo "Cargo environment sourced."
+else
+    echo "Cargo CLI not found. Skipping environment sourcing."
+fi
