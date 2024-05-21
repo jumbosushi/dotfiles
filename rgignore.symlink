@@ -3,4 +3,6 @@ yarn.lock
 tags
 log/
 *.pyc
+*.json
+*.csv
 # vendor/

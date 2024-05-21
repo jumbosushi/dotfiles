@@ -1,6 +1,6 @@
 unbind C-b
 set -g prefix C-a
-set -g history-limit 3000
+set -g history-limit 5000
 
 # bind a reload key
 bind R source-file ~/.tmux.conf \; display-message "Config reloaded.."
@@ -34,8 +34,8 @@ unbind Space
 bind Space copy-mode
 unbind p
 bind p paste-buffer
-bind-key -T vi-copy v begin-selection
-bind-key -T vi-copy y copy-selection
+# bind-key -T vi-copy v begin-selection
+# bind-key -T vi-copy y copy-selection
 set-window-option -g allow-rename on
 set -g set-titles on
 
@@ -53,38 +53,34 @@ bind o resize-pane -Z
 # set -g default-terminal "xterm"
 # set -g default-terminal "tmux-256color"
 
-# Set the bg color
-# set status-bg default
-
 # set -g terminal-overrides ',xterm-256color:Tc'
 # set -g default-terminal "tmux-256color"
 # set -as terminal-overrides ',xterm*:sitm=\E[3m'
 
 #### COLOUR (Solarized dark)
 
-# default statusbar colors
-set-option -g status-bg black #base02
-set-option -g status-fg yellow #yellow
-set-option -g status-attr default
+# statusbar colors
+set-option -g status-style bg=colour235 # dark background
+set-option -g status-style fg=colour136 # light text
 
 # default window title colors
-set-window-option -g window-status-fg brightblue #base0
-set-window-option -g window-status-bg default
+set-window-option -g window-status-style fg=brightblue #base0
+set-window-option -g window-status-style bg=default
 #set-window-option -g window-status-attr dim
 
 # active window title colors
-set-window-option -g window-status-current-fg brightred #orange
-set-window-option -g window-status-current-bg default
+set-window-option -g window-status-current-style fg=brightred #orange
+set-window-option -g window-status-current-style bg=default
 #set-window-option -g window-status-current-attr bright
 
 # pane border
 # set-option -g pane-border-fg black #base02
-set-option -g pane-border-fg green #red
-set-option -g pane-active-border-fg brightgreen #base01
+set-option -g pane-border-style fg=green #red
+set-option -g pane-active-border-style fg=brightgreen #base01
 
 # message text
-set-option -g message-bg black #base02
-set-option -g message-fg brightred #orange
+set-option -g message-style bg=black #base02
+set-option -g message-style fg=brightred #orange
 
 # pane number display
 set-option -g display-panes-active-colour blue #blue
