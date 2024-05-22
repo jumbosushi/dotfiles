@@ -1,6 +1,6 @@
 # dotfiles
 
-This setup is heavily inspired by [cpojer/dotfiles](https://github.com/cpojer/dotfiles) setup.
+This setup is heavily inspired by [cpojer/dotfiles](https://github.com/cpojer/dotfiles) setup & his [blog post](https://cpojer.net/posts/set-up-a-new-mac-fast)
 
 ## Mac
 
