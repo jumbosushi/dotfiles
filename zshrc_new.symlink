@@ -37,6 +37,12 @@ fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 
 # =====================================
+# Import
+source "$HOME/.cargo/env"
+source "$HOME/.asdf/asdf.sh"
+
+
+# =====================================
 # Alias
 
 function view_pr() {
