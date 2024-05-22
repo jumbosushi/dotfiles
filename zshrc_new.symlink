@@ -29,8 +29,8 @@ source $ZSH/oh-my-zsh.sh
 export SSH_KEY_PATH="~/.ssh/dsa_id"
 # eval `keychain --eval id_rsa` # For keychain
 
-# redefine prompt_context for hiding user@hostname
-prompt_context () { }
+# redefine prompt_context for hiding user@hostname (Uncomment to enable it)
+# prompt_context () { }
 
 # Docker
 fpath=(~/.zsh/completion $fpath)
