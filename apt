@@ -2,7 +2,10 @@
 
 sudo apt update
 sudo apt upgrade -y
-# TODO: Fix these
+
+# =======================
+# neovim
+
 # Install rustup
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 . "$HOME/.cargo/env"
@@ -13,13 +16,10 @@ cargo install bob-nvim
 bob install 0.9.5
 bob use 0.9.5
 PATH=$PATH:/home/user/.local/share/bob/nvim-bin
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerInstall'
+# Install packages. First time will print errors about missing pakcages, so mute it
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerInstall' 2>/dev/null
 
-sudo apt install zsh -y
-# Install oh-my-zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-# Bring back the original zshrc
-mv .zshrc.pre-oh-my-zsh .zshrc
+# =======================
 
 ## GitHub CLI
 (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
@@ -31,9 +31,54 @@ mv .zshrc.pre-oh-my-zsh .zshrc
 && sudo apt install gh -y
 
 ## packages
-sudo apt install \
+sudo apt install -y \
     ripgrep \
     tmux \
     fzf \
-    jq
+    jq \
+    wget \
+    locales locales-all
+
+# =======================
+# asdf
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+. "$HOME/.asdf/asdf.sh"
+asdf plugin add golang https://github.com/kennyp/asdf-golang.git
+asdf install golang latest
+asdf global golang latest
+
+# =======================
+# Kubernetes
+
+# kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+# Krew
+(
+  set -x; cd "$(mktemp -d)" &&
+  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+  KREW="krew-${OS}_${ARCH}" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+  tar zxvf "${KREW}.tar.gz" &&
+  ./"${KREW}" install krew
+)
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+kubectl krew update
+kubectl krew install ctx
+kubectl krew install ns
+
+# =======================
+# zsh
+sudo apt install zsh -y
+# Install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# Bring back the original zshrc
+mv .zshrc_new .zshrc
+# syntax-highlight
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+# auto suggestion
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 

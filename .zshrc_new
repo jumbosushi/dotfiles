@@ -1,4 +1,4 @@
-export ZSH=/Users/ayamamoto/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
@@ -10,8 +10,16 @@ setopt appendhistory
 
 ###
 ZSH_THEME="agnoster"
-# ZSH_THEME="powerlevel10k/powerlevel10k"
-plugins=(git ssh-agent docker kubectl zsh-syntax-highlighting zsh-autosuggestions) # All plugins at ~/.oh-my-zsh/plugins/*
+# All plugins at ~/.oh-my-zsh/plugins/*
+plugins=(
+    git
+    ssh-agent
+    docker
+    kubectl
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+    kube-ps1
+)
 
 # Enable ssh-forwarding
 zstyle :omz:plugins:ssh-agent agent-forwarding on
@@ -77,17 +85,19 @@ alias vimconfig="vim ~/.vimrc"
 alias wut="$1 --help | grep $2"
 alias zshconfig="vim ~/.zshrc"
 
+alias kctx="kubectl ctx"
+alias kns="kubectl ns"
+
 # =====================================
 # Language config
 
-# Go
-export GOPATH=$HOME/go
-export GOBIN=$HOME/go/bin
-source ~/.tmuxinator.zsh
-export DISABLE_AUTO_TITLE=true
-export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:$GOPATH/bin
+# nvim
+PATH=$PATH:/home/user/.local/share/bob/nvim-bin
 
+# Go
+export GOPATH=$(asdf where golang)/packages
+export GOROOT=$(asdf where golang)/go
+export PATH="${PATH}:$(go env GOPATH)/bin"
 
 # ==================================
 # Use vim keybind
@@ -119,23 +129,17 @@ export PATH="$HOME/.jenv/bin:$PATH"
 
 # =====================================
 # Kubernetes
+
+# Krew installation
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
 export KUBE_EDITOR=nvim
 # Show k8s context in prompt
-source ~/kube-ps1.sh 
 PROMPT='$(kube_ps1)'$PROMPT
 export KUBE_PS1_SYMBOL_ENABLE=false
 export KUBE_PS1_DIVIDER='|'
 export KUBE_PS1_SUFFIX=') '
 kubeoff
-
-eval "$(pyenv init -)"
-
-# Add sublime shell
-export PATH=$PATH:'/Applications/Sublime Text.app/Contents/SharedSupport/bin'
-# Disable homebrew update
-export HOMEBREW_NO_AUTO_UPDATE=1
-# rbenv
-eval "$(rbenv init - zsh)"
 
 # =============
 # jq ruby substitute: https://news.ycombinator.com/item?id=13091469
@@ -151,7 +155,16 @@ if command -v cargo &> /dev/null
 then
     # Source the Cargo environment file
     . "$HOME/.cargo/env"
-    echo "Cargo environment sourced."
 else
     echo "Cargo CLI not found. Skipping environment sourcing."
 fi
+
+# =====================================
+# OS: MacOS
+# =====================================
+#
+# =====================================
+# Add sublime shell
+export PATH=$PATH:'/Applications/Sublime Text.app/Contents/SharedSupport/bin'
+# Disable homebrew update
+export HOMEBREW_NO_AUTO_UPDATE=1
