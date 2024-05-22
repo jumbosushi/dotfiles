@@ -5,7 +5,7 @@ This setup is heavily inspired by [cpojer/dotfiles](https://github.com/cpojer/do
 ## Mac
 
 ```
-git clone git@github.com:jumbosushi/dotfiles.git
+git clone https://github.com/jumbosushi/dotfiles.git
 cd dotfiles
 ./bootstrap
 ./homebrew
@@ -14,5 +14,8 @@ cd dotfiles
 ## Linux
 
 ```
-
+git clone https://github.com/jumbosushi/dotfiles.git
+cd dotfiles
+./bootstrap
+./apt
 ```
