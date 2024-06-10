@@ -7,69 +7,86 @@ sudo apt upgrade -y
 # neovim
 
 # Install rustup
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source "$HOME/.cargo/env"
+if ! command -v cargo >/dev/null 2>&1; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  source "$HOME/.cargo/env"
+fi
 # Mighe need the following in the .zshrc file
 # Install bob (nvim version manager). This is since Packer is only for v0.5 >
-cargo install bob-nvim
-# Run nvim install
-bob install 0.9.5
-bob use 0.9.5
-PATH=$PATH:/home/user/.local/share/bob/nvim-bin
-# Install packages. First time will print errors about missing pakcages, so mute it
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerInstall' 2>/dev/null
+
+# Check if bob-nvim is in the list of installed packages
+installed_packages=$(cargo install --list)
+if ! echo "$installed_packages" | grep -q "bob-nvim"; then
+  cargo install bob-nvim
+  # Run nvim install
+  bob install 0.9.5
+  bob use 0.9.5
+  PATH=$PATH:/home/user/.local/share/bob/nvim-bin
+  # Install packages. First time will print errors about missing pakcages, so mute it
+  nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerInstall' 2>/dev/null
+fi
 
 # =======================
 
 ## GitHub CLI
-(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
-&& sudo mkdir -p -m 755 /etc/apt/keyrings \
-&& wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
-&& sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
-&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-&& sudo apt update \
-&& sudo apt install gh -y
+if ! apt list --installed 2>/dev/null | grep -q "^gh/"; then
+  (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+  && sudo mkdir -p -m 755 /etc/apt/keyrings \
+  && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+  && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+  && sudo apt update \
+  && sudo apt install gh -y
+fi
 
 ## packages
-sudo apt install -y \
-    ripgrep \
-    tmux \
-    fzf \
-    jq \
-    wget \
-    locales locales-all
+if ! apt list --installed 2>/dev/null | grep -q "^ripgrep/"; then
+  sudo apt install -y \
+      ripgrep \
+      tmux \
+      fzf \
+      jq \
+      wget \
+      locales locales-all
+fi
 
 # =======================
 # asdf
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
-source "$HOME/.asdf/asdf.sh"
-asdf plugin add golang https://github.com/kennyp/asdf-golang.git
-asdf install golang latest
-asdf global golang latest
+if ! command -v asdf >/dev/null 2>&1; then
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+  source "$HOME/.asdf/asdf.sh"
+  asdf plugin add golang https://github.com/kennyp/asdf-golang.git
+  asdf install golang latest
+  asdf global golang latest
+fi
 
 # =======================
 # Kubernetes
 
 # kubectl
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-rm kubectl kubectl.sha256
+if ! command -v kubectl >/dev/null 2>&1; then
+  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+  sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+  rm kubectl kubectl.sha256
+fi
 
 # Krew
-(
-  set -x; cd "$(mktemp -d)" &&
-  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
-  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
-  KREW="krew-${OS}_${ARCH}" &&
-  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
-  tar zxvf "${KREW}.tar.gz" &&
-  ./"${KREW}" install krew
-)
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-kubectl krew update
-kubectl krew install ctx
-kubectl krew install ns
+if ! kubectl ctx >/dev/null 2>&1; then
+  (
+    set -x; cd "$(mktemp -d)" &&
+    OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+    ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+    KREW="krew-${OS}_${ARCH}" &&
+    curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+    tar zxvf "${KREW}.tar.gz" &&
+    ./"${KREW}" install krew
+  )
+  export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+  kubectl krew update
+  kubectl krew install ctx
+  kubectl krew install ns
+fi
 
 # =======================
 # zsh

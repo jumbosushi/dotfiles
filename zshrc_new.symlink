@@ -49,7 +49,7 @@ function view_pr() {
   export RB_COMMIT=$1
   num=$(ruby -e 's=`git log $RB_COMMIT | cat | head -5`; r = s.match(/\(\#(\d+)\)/); print r.to_s[2..-2]')
   gh pr view --web $num
-} 
+}
 
 function hgrep() {
   awk "NR == 1 || /$1/"
@@ -93,6 +93,7 @@ alias zshconfig="vim ~/.zshrc"
 
 alias kctx="kubectl ctx"
 alias kns="kubectl ns"
+alias cds="cd ~/development/sciences"
 
 # =====================================
 # Language config
