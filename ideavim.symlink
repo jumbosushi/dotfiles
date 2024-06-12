@@ -5,3 +5,8 @@ set NERDTree
 let mapleader=","
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <Leader>f :NERDTreeFind<CR>
+
+" See action list here: https://gist.github.com/zchee/9c78f91cc5ad771c1f5d
+" There's some issue with this feature on 2024 versions
+" https://youtrack.jetbrains.com/issue/IJPL-148571/Copy-GitHub-Link-Nothing-Here
+vmap <Leader>g :action Github.Open.In.Browser<CR>
